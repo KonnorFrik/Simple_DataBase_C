@@ -4,8 +4,9 @@ flags=-Wall -Werror -Wextra
 build_dir=bin
 
 ### USER ====================
-all: reader writer deleter clean
-debug: debug_reader debug_writer debug_deleter clean
+all: check_dirs reader writer deleter clean
+debug: check_dirs debug_reader debug_writer debug_deleter clean
+rebuild: clean_all all
 
 writer: write_db.o io.o database.o
 > $(cc) $(flags) $? -o $(build_dir)/$@
@@ -31,10 +32,13 @@ new_db:
 ### USER ====================
 
 ### STUFF ===================
-rebuild: clean_all all
 
 clean:
 > rm -f *.o
+
+check_dirs:
+> chmod +x check_dirs.sh
+> ./check_dirs.sh
 
 clean_all: clean
 > rm -rf bin/*
