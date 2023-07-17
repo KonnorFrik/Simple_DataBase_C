@@ -9,18 +9,19 @@
 
 int main() {
     int status = 0;
+    char* filename = NULL;
 
     printf("Enter DB path\n>> ");
-    char* filename = get_str(&status);
-    //FILE* db = fopen(filename, "rb");
+    filename = get_str(&status);
+    // FILE* db = fopen(filename, "rb");
     FILE* db = NULL;
 
     if (filename == NULL) {
         status = NULL_PTR;
     }
 
-    //if (db == NULL) {
-        //status = NULL_PTR;
+    // if (db == NULL) {
+    // status = NULL_PTR;
     //}
 
     MODULES* record = init_module();
@@ -28,7 +29,7 @@ int main() {
         status = NULL_PTR;
     }
 
-    printf("Now delete in: %s\n", filename);
+    printf("Now delete in: %s\n", filename == NULL ? "-NULL-" : filename);
     while (!status) {
         int user_inp;
         printf("\nEnter id for find & del, %d for exit\n>> ", EXIT_CODE);
@@ -39,9 +40,8 @@ int main() {
             continue;
         }
 
-        //printf("Enter id for search\n>> ");
-        //int search_id = get_number(&status);
-
+        // printf("Enter id for search\n>> ");
+        // int search_id = get_number(&status);
 
         db = fopen(filename, "rb");
         if (db == NULL) {
@@ -61,7 +61,6 @@ int main() {
             flush_stdin();
             delete_module(filename, record);
         }
-
     }
 
     if (record != NULL) {
@@ -79,10 +78,7 @@ int main() {
         fclose(db);
     }
 
-    if (status) {
-        printf("STATUS# %d\n", status);
-    }
+    printf("STATUS# %d\n", status);
 
     return status;
 }
-

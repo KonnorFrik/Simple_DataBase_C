@@ -27,16 +27,16 @@ void find_by_id(FILE* db, MODULES* record, int search_id) {
         offset++;
     }
 
-    //if (db != NULL) {
-        //fclose(db);
+    // if (db != NULL) {
+    // fclose(db);
     //}
 }
 
 int max_id(FILE* db, MODULES* obj) {
-    //FILE* db = fopen(filename);
+    // FILE* db = fopen(filename);
     int res = -1;
     int offset = 0;
-    //int fake_status = 0;
+    // int fake_status = 0;
 
     while (db != NULL && !feof(db)) {
         read_module(db, obj, offset);
@@ -52,18 +52,18 @@ int max_id(FILE* db, MODULES* obj) {
 }
 
 int new_id(FILE* db) {
-    //FILE* db = fopen(filename);
+    // FILE* db = fopen(filename);
 
     MODULES* fake = calloc(1, sizeof(MODULES));
-    int res;
+    int res = -1;
 
-    if (db != NULL && fake != NULL) {
+    if (fake != NULL) {
         res = max_id(db, fake);
         free(fake);
     }
 
-    //if (db != NULL) {
-        //fclose(db);
+    // if (db != NULL) {
+    // fclose(db);
     //}
 
     return res + 1;
@@ -91,7 +91,6 @@ void delete_module(char* filename, MODULES* record) {
         MODULES* obj = calloc(1, sizeof(MODULES));
 
         while (!feof(to_read) && obj != NULL) {
-
             fread(obj, sizeof(MODULES), 1, to_read);
 
             if (obj->id != record->id) {
@@ -120,10 +119,10 @@ void delete_module(char* filename, MODULES* record) {
 }
 
 char* get_tmp_filename(char* filename) {
-    int len;
     char* new = NULL;
 
     if (filename != NULL) {
+        int len;
         len = strlen(filename);
         len += 5;
         new = calloc(len, sizeof(char));
@@ -160,15 +159,15 @@ void fill_module(MODULES* obj, int* status) {
 }
 
 void write_module(FILE* db, MODULES* obj) {
-    //FILE* db = fopen(filename, "ab");
+    // FILE* db = fopen(filename, "ab");
 
     if (db != NULL && obj != NULL) {
         fseek(db, 0, SEEK_END);
         fwrite(obj, sizeof(MODULES), 1, db);
     }
-    
-    //if (db != NULL) {
-        //fclose(db);
+
+    // if (db != NULL) {
+    // fclose(db);
     //}
 }
 
@@ -179,9 +178,7 @@ void read_module(FILE* db, MODULES* obj, int offset) {
     }
 }
 
-void print_header() {
-    printf("id\tname\t\tmemory\tcell\tflag\n");
-}
+void print_header() { printf("id\tname\t\tmemory\tcell\tflag\n"); }
 
 void print_modules(MODULES* obj) {
     if (obj != NULL) {
@@ -191,4 +188,3 @@ void print_modules(MODULES* obj) {
         printf("\t--NULL--\n");
     }
 }
-

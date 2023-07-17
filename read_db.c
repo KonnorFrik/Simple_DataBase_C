@@ -11,13 +11,16 @@
 // get db filepath from user
 int main() {
     int status = 0;
+    char* filename = NULL;
+    FILE* db = NULL;
 
     printf("Enter db path\n>> ");
-    char* filename = get_str(&status);
-    FILE* db = fopen(filename, "rb+");
-    //flush_stdin();
+    filename = get_str(&status);
 
-    if (filename == NULL) {
+    if (filename != NULL) {
+        db = fopen(filename, "rb+");
+
+    } else {
         status = NULL_PTR;
     }
 
@@ -25,12 +28,16 @@ int main() {
         status = NULL_PTR;
     }
 
+    // if (filename == NULL) {
+    // status = NULL_PTR;
+    //}
+
     MODULES* record = init_module();
     if (record == NULL) {
         status = NULL_PTR;
     }
 
-    printf("Now read: %s\n", filename);
+    printf("Now read: %s\n", filename == NULL ? "-NULL-" : filename);
     while (!status) {
         int offset;
         printf("\nEnter offset of record (%d for exit)\n>> ", EXIT_CODE);
@@ -63,9 +70,7 @@ int main() {
         fclose(db);
     }
 
-    if (status) {
-        printf("STATUS# %d\n", status);
-    }
+    printf("STATUS# %d\n", status);
 
     return status;
 }
