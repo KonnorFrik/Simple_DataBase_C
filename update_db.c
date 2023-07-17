@@ -33,38 +33,7 @@ int main() {
 
     printf("Now append: %s\n", filename == NULL ? "-NULL-" : filename);
     while (!status) {
-        int menu;
-        printf("\nEnter 1 for append, %d for exit\n>> ", EXIT_CODE);
-
-        menu = get_number(&status);
-        if (menu == EXIT_CODE) {
-            status = USER_STOP;
-            continue;
-        }
-
-        fill_module(record, &status);
-        record->id = new_id(db);
-
-        printf("Writed record:\n");
-        print_header();
-        print_modules(record);
-
-        write_module(db, record);
     }
-
-    if (record != NULL) {
-        free(record);
-    }
-
-    if (filename != NULL) {
-        free(filename);
-    }
-
-    if (db != NULL) {
-        fclose(db);
-    }
-
-    printf("STATUS# %d\n", status);
 
     return status;
 }

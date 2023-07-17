@@ -26,17 +26,11 @@ void find_by_id(FILE* db, MODULES* record, int search_id) {
         }
         offset++;
     }
-
-    // if (db != NULL) {
-    // fclose(db);
-    //}
 }
 
 int max_id(FILE* db, MODULES* obj) {
-    // FILE* db = fopen(filename);
     int res = -1;
     int offset = 0;
-    // int fake_status = 0;
 
     while (db != NULL && !feof(db)) {
         read_module(db, obj, offset);
@@ -52,8 +46,6 @@ int max_id(FILE* db, MODULES* obj) {
 }
 
 int new_id(FILE* db) {
-    // FILE* db = fopen(filename);
-
     MODULES* fake = calloc(1, sizeof(MODULES));
     int res = -1;
 
@@ -61,10 +53,6 @@ int new_id(FILE* db) {
         res = max_id(db, fake);
         free(fake);
     }
-
-    // if (db != NULL) {
-    // fclose(db);
-    //}
 
     return res + 1;
 }
@@ -159,16 +147,10 @@ void fill_module(MODULES* obj, int* status) {
 }
 
 void write_module(FILE* db, MODULES* obj) {
-    // FILE* db = fopen(filename, "ab");
-
     if (db != NULL && obj != NULL) {
         fseek(db, 0, SEEK_END);
         fwrite(obj, sizeof(MODULES), 1, db);
     }
-
-    // if (db != NULL) {
-    // fclose(db);
-    //}
 }
 
 void read_module(FILE* db, MODULES* obj, int offset) {

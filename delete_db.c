@@ -13,16 +13,11 @@ int main() {
 
     printf("Enter DB path\n>> ");
     filename = get_str(&status);
-    // FILE* db = fopen(filename, "rb");
     FILE* db = NULL;
 
     if (filename == NULL) {
         status = NULL_PTR;
     }
-
-    // if (db == NULL) {
-    // status = NULL_PTR;
-    //}
 
     MODULES* record = init_module();
     if (record == NULL) {
@@ -39,9 +34,6 @@ int main() {
             status = USER_STOP;
             continue;
         }
-
-        // printf("Enter id for search\n>> ");
-        // int search_id = get_number(&status);
 
         db = fopen(filename, "rb");
         if (db == NULL) {
@@ -64,9 +56,6 @@ int main() {
     }
 
     if (record != NULL) {
-        // if (record->name != NULL) {
-        // free(record->name);
-        //}
         free(record);
     }
 

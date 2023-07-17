@@ -7,8 +7,6 @@
 #include "settings.h"
 #include "struct.h"
 
-// TODO
-// get db filepath from user
 int main() {
     int status = 0;
     char* filename = NULL;
@@ -27,10 +25,6 @@ int main() {
     if (db == NULL) {
         status = NULL_PTR;
     }
-
-    // if (filename == NULL) {
-    // status = NULL_PTR;
-    //}
 
     MODULES* record = init_module();
     if (record == NULL) {
