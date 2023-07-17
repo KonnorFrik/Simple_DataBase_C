@@ -12,44 +12,56 @@ int main() {
 
     printf("Enter DB path\n>> ");
     char* filename = get_str(&status);
-    FILE* db = fopen(filename, "ab+");
-
-    if (db == NULL) {
-        status = NULL_PTR;
-    }
+    //FILE* db = fopen(filename, "rb");
+    FILE* db = NULL;
 
     if (filename == NULL) {
         status = NULL_PTR;
     }
+
+    //if (db == NULL) {
+        //status = NULL_PTR;
+    //}
 
     MODULES* record = init_module();
     if (record == NULL) {
         status = NULL_PTR;
     }
 
-    printf("Now append: %s\n", filename);
+    printf("Now delete in: %s\n", filename);
     while (!status) {
-        int menu;
-        printf("\nEnter 1 for append, %d for exit\n>> ", EXIT_CODE);
+        int user_inp;
+        printf("\nEnter id for find & del, %d for exit\n>> ", EXIT_CODE);
 
-        menu = get_number(&status);
-        if (menu == EXIT_CODE) {
+        user_inp = get_number(&status);
+        if (user_inp == EXIT_CODE) {
             status = USER_STOP;
             continue;
         }
 
-        //if (DEBUG) {
-            //printf("CURSOR: %ld\n", ftell(db));
-        //}
+        //printf("Enter id for search\n>> ");
+        //int search_id = get_number(&status);
 
-        fill_module(record, &status);
-        record->id = new_id(db);
 
-        printf("Writed record:\n");
+        db = fopen(filename, "rb");
+        if (db == NULL) {
+            status = NULL_PTR;
+            continue;
+        }
+        find_by_id(db, record, user_inp);
+        fclose(db);
+        db = NULL;
+
+        printf("\nTo delete\n1. Yes\n2. No\n");
         print_header();
         print_modules(record);
 
-        write_module(db, record);
+        if (get_number(&status) == 1) {
+            printf("DELETE CONFIRMED\n");
+            flush_stdin();
+            delete_module(filename, record);
+        }
+
     }
 
     if (record != NULL) {
@@ -73,3 +85,4 @@ int main() {
 
     return status;
 }
+

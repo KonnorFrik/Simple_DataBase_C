@@ -9,14 +9,136 @@
 #include "struct.h"
 
 MODULES* init_module() {
-    MODULES* obj = malloc(sizeof(MODULES));
+    MODULES* obj = calloc(1, sizeof(MODULES));
     return obj;
+}
+
+void find_by_id(FILE* db, MODULES* record, int search_id) {
+    int find = 0;
+    int offset = 0;
+
+    while (db != NULL && !feof(db) && !find) {
+        read_module(db, record, offset);
+
+        if (record != NULL && record->id == search_id) {
+            find = 1;
+            continue;
+        }
+        offset++;
+    }
+
+    //if (db != NULL) {
+        //fclose(db);
+    //}
+}
+
+int max_id(FILE* db, MODULES* obj) {
+    //FILE* db = fopen(filename);
+    int res = -1;
+    int offset = 0;
+    //int fake_status = 0;
+
+    while (db != NULL && !feof(db)) {
+        read_module(db, obj, offset);
+
+        if (obj != NULL && obj->id > res) {
+            res = obj->id;
+        }
+
+        offset++;
+    }
+
+    return res;
+}
+
+int new_id(FILE* db) {
+    //FILE* db = fopen(filename);
+
+    MODULES* fake = calloc(1, sizeof(MODULES));
+    int res;
+
+    if (db != NULL && fake != NULL) {
+        res = max_id(db, fake);
+        free(fake);
+    }
+
+    //if (db != NULL) {
+        //fclose(db);
+    //}
+
+    return res + 1;
+}
+
+void delete_module(char* filename, MODULES* record) {
+    FILE* to_read = NULL;
+    FILE* tmp = NULL;
+    char* tmp_filename = NULL;
+
+    if (filename != NULL) {
+        to_read = fopen(filename, "rb");
+        tmp_filename = get_tmp_filename(filename);
+
+        if (DEBUG) {
+            printf("\nfilename: %s\ttmp filename: %s\n", filename, tmp_filename);
+        }
+    }
+
+    if (tmp_filename != NULL) {
+        tmp = fopen(tmp_filename, "wb");
+    }
+
+    if (tmp != NULL && to_read != NULL) {
+        MODULES* obj = calloc(1, sizeof(MODULES));
+
+        while (!feof(to_read) && obj != NULL) {
+
+            fread(obj, sizeof(MODULES), 1, to_read);
+
+            if (obj->id != record->id) {
+                fwrite(obj, sizeof(MODULES), 1, tmp);
+            }
+        }
+
+        if (obj != NULL) {
+            free(obj);
+        }
+    }
+
+    if (to_read != NULL) {
+        fclose(to_read);
+    }
+
+    if (tmp != NULL) {
+        fclose(tmp);
+    }
+
+    if (filename != NULL && tmp_filename != NULL) {
+        remove(filename);
+        rename(tmp_filename, filename);
+        free(tmp_filename);
+    }
+}
+
+char* get_tmp_filename(char* filename) {
+    int len;
+    char* new = NULL;
+
+    if (filename != NULL) {
+        len = strlen(filename);
+        len += 5;
+        new = calloc(len, sizeof(char));
+    }
+
+    if (new != NULL) {
+        strcat(new, filename);
+        strcat(new, "_tmp");
+    }
+
+    return new;
 }
 
 void fill_module(MODULES* obj, int* status) {
     if (obj != NULL) {
-        printf("ID\n>> ");
-        obj->id = get_number(status);
         flush_stdin();
 
         printf("Name\n>> ");
@@ -38,28 +160,35 @@ void fill_module(MODULES* obj, int* status) {
 }
 
 void write_module(FILE* db, MODULES* obj) {
+    //FILE* db = fopen(filename, "ab");
+
     if (db != NULL && obj != NULL) {
+        fseek(db, 0, SEEK_END);
         fwrite(obj, sizeof(MODULES), 1, db);
     }
+    
+    //if (db != NULL) {
+        //fclose(db);
+    //}
 }
 
-void read_module(FILE* db, MODULES* obj, int offset, int* status) {
-    if (obj != NULL && db != NULL && !*status) {
+void read_module(FILE* db, MODULES* obj, int offset) {
+    if (obj != NULL && db != NULL) {
         fseek(db, sizeof(MODULES) * offset, SEEK_SET);
         fread(obj, sizeof(MODULES), 1, db);
     }
+}
 
-    if (*status && obj != NULL) {
-        free(obj);
-    }
+void print_header() {
+    printf("id\tname\t\tmemory\tcell\tflag\n");
 }
 
 void print_modules(MODULES* obj) {
     if (obj != NULL) {
-        printf("id\tname\t\tmemory\tcell\tflag\n");
-        printf("%d\t%s\t\t%d\t%d\t%d\n", obj->id, obj->name, obj->mem_level, obj->cell, obj->flag);
+        printf("%d\t%s\t%d\t%d\t%d\n", obj->id, obj->name, obj->mem_level, obj->cell, obj->flag);
 
     } else {
         printf("\t--NULL--\n");
     }
 }
+

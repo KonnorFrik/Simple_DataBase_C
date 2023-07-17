@@ -3,9 +3,6 @@
 
 #define NAME_LEN 30
 
-//#define MODULES_PATH "data/master_modules.db"
-#define MODULES_PATH "data/new.db"
-
 typedef struct modules {
     int id;
     char name[NAME_LEN];

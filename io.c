@@ -109,7 +109,9 @@ int is_eol() {
 }
 
 void flush_stdin() {
-    while (getchar() != '\n') {
-        ;
-    }
+    //if (!feof(stdin)) {
+        while (getchar() != '\n') {
+            ;
+        }
+    //}
 }

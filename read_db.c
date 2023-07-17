@@ -12,17 +12,28 @@
 int main() {
     int status = 0;
 
-    FILE* db = fopen(MODULES_PATH, "rb");
+    printf("Enter db path\n>> ");
+    char* filename = get_str(&status);
+    FILE* db = fopen(filename, "rb+");
+    //flush_stdin();
+
+    if (filename == NULL) {
+        status = NULL_PTR;
+    }
+
     if (db == NULL) {
         status = NULL_PTR;
     }
 
     MODULES* record = init_module();
+    if (record == NULL) {
+        status = NULL_PTR;
+    }
 
-    printf("Now read: %s\n", MODULES_PATH);
-    while (!status && db != NULL && record != NULL) {
+    printf("Now read: %s\n", filename);
+    while (!status) {
         int offset;
-        printf("Enter offset of record (%d for exit)\n>> ", EXIT_CODE);
+        printf("\nEnter offset of record (%d for exit)\n>> ", EXIT_CODE);
 
         offset = get_number(&status);
         if (offset == EXIT_CODE) {
@@ -30,25 +41,22 @@ int main() {
             continue;
         }
 
-        read_module(db, record, offset, &status);
+        read_module(db, record, offset);
 
         if (DEBUG) {
             printf("CURSOR: %ld\n", ftell(db));
         }
 
+        print_header();
         print_modules(record);
     }
 
-    // if (modules_record == NULL) {
-    // status = NULL_PTR;
-    //}
-
-    // if (modules_record != NULL) {
-    // free(modules_record);
-    //}
-
     if (record != NULL) {
         free(record);
+    }
+
+    if (filename != NULL) {
+        free(filename);
     }
 
     if (db != NULL) {

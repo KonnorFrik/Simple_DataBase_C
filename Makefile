@@ -4,8 +4,8 @@ flags=-Wall -Werror -Wextra
 build_dir=bin
 
 ### USER ====================
-all: reader writer clean
-debug: debug_reader debug_writer clean
+all: reader writer deleter clean
+debug: debug_reader debug_writer debug_deleter clean
 
 writer: write_db.o io.o database.o
 > $(cc) $(flags) $? -o $(build_dir)/$@
@@ -13,10 +13,16 @@ writer: write_db.o io.o database.o
 reader: read_db.o io.o database.o
 > $(cc) $(flags) $? -o $(build_dir)/$@
 
+deleter: delete_db.o io.o database.o
+> $(cc) $(flags) $? -o $(build_dir)/$@
+
 debug_reader: read_db.c io.c database.c
 > $(cc) $(flags) -g $? -o $(build_dir)/$@
 
 debug_writer: write_db.c io.c database.c
+> $(cc) $(flags) -g $? -o $(build_dir)/$@
+
+debug_deleter: delete_db.c io.c database.c
 > $(cc) $(flags) -g $? -o $(build_dir)/$@
 
 new_db:
