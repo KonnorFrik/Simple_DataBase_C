@@ -103,7 +103,7 @@ int is_eol() {
 
     if (getchar() == '\n') {
         res = 1;
-        //ungetc('\n', stdin);
+        // ungetc('\n', stdin);
     }
 
     return res;

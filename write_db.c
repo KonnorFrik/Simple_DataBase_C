@@ -10,29 +10,29 @@
 void printf_info_write();
 
 void write_submenu(int* status, FILE* db, MODULES* record) {
-    //int status = 0;
-    //char* filename = NULL;
-    //FILE* db = NULL;
+    // int status = 0;
+    // char* filename = NULL;
+    // FILE* db = NULL;
 
-    //printf("Enter DB path\n>> ");
-    //filename = get_str(&status);
+    // printf("Enter DB path\n>> ");
+    // filename = get_str(&status);
 
-    //if (filename != NULL) {
-        //db = fopen(filename, "ab+");
+    // if (filename != NULL) {
+    // db = fopen(filename, "ab+");
     //} else {
-        //status = NULL_PTR;
+    // status = NULL_PTR;
     //}
 
-    //if (db == NULL) {
-        //status = NULL_PTR;
+    // if (db == NULL) {
+    // status = NULL_PTR;
     //}
 
-    //MODULES* record = init_module();
-    //if (record == NULL) {
-        //status = NULL_PTR;
+    // MODULES* record = init_module();
+    // if (record == NULL) {
+    // status = NULL_PTR;
     //}
 
-    //printf("Now append: %s\n", filename == NULL ? "-NULL-" : filename);
+    // printf("Now append: %s\n", filename == NULL ? "-NULL-" : filename);
     while (!*status) {
         printf_info_write();
         int menu;
@@ -55,21 +55,19 @@ void write_submenu(int* status, FILE* db, MODULES* record) {
         write_module(db, record);
     }
 
-    //if (record != NULL) {
-        //free(record);
+    // if (record != NULL) {
+    // free(record);
     //}
-    //if (filename != NULL) {
-        //free(filename);
+    // if (filename != NULL) {
+    // free(filename);
     //}
-    //if (db != NULL) {
-        //fclose(db);
+    // if (db != NULL) {
+    // fclose(db);
     //}
 
     printf("STATUS# %d\n", *status);
 
-    //return status;
+    // return status;
 }
 
-void printf_info_write() {
-    printf("\n===Write Module===");
-}
+void printf_info_write() { printf("\n===Write Module==="); }

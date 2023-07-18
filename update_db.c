@@ -11,34 +11,34 @@
 void printf_info_upd();
 
 void update_submenu(int* status, FILE* db, MODULES* record) {
-    //char* filename = NULL;
-    //FILE* db = NULL;
+    // char* filename = NULL;
+    // FILE* db = NULL;
 
-    //printf("Enter DB path\n>> ");
-    //filename = get_str(&status);
+    // printf("Enter DB path\n>> ");
+    // filename = get_str(&status);
 
-    //if (filename != NULL) {
-        //db = fopen(filename, "rb+");
+    // if (filename != NULL) {
+    // db = fopen(filename, "rb+");
     //} else {
-        //status = NULL_PTR;
+    // status = NULL_PTR;
     //}
 
-    //if (db == NULL) {
-        //status = NULL_PTR;
+    // if (db == NULL) {
+    // status = NULL_PTR;
     //}
 
-    //MODULES* record = init_module();
-    //if (record == NULL) {
-        //status = NULL_PTR;
+    // MODULES* record = init_module();
+    // if (record == NULL) {
+    // status = NULL_PTR;
     //}
 
-    //if (db != NULL) {
-        //printf("Now update: ");
+    // if (db != NULL) {
+    // printf("Now update: ");
     //} else {
-        //printf("Can't open ");
+    // printf("Can't open ");
     //}
 
-    //printf("'%s'\n", filename == NULL ? "-NULL-" : filename);
+    // printf("'%s'\n", filename == NULL ? "-NULL-" : filename);
 
     while (!*status) {
         printf_info_upd();
@@ -68,7 +68,7 @@ void update_submenu(int* status, FILE* db, MODULES* record) {
                 strcpy(record->name, buf);
                 free(buf);
 
-            } else { 
+            } else {
                 *status = NULL_PTR;
             }
 
@@ -99,26 +99,23 @@ void update_submenu(int* status, FILE* db, MODULES* record) {
             print_header();
             print_modules(record);
         }
-
     }
 
-    //if (record != NULL) {
-        //free(record);
+    // if (record != NULL) {
+    // free(record);
     //}
 
-    //if (filename != NULL) {
-        //free(filename);
+    // if (filename != NULL) {
+    // free(filename);
     //}
 
-    //if (db != NULL) {
-        //fclose(db);
+    // if (db != NULL) {
+    // fclose(db);
     //}
 
     printf("UPDATE STATUS# %d\n", *status);
 
-    //return status;
+    // return status;
 }
 
-void printf_info_upd() {
-    printf("\n===Update Module===");
-}
+void printf_info_upd() { printf("\n===Update Module==="); }

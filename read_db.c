@@ -11,29 +11,29 @@ void show_all(FILE* db, MODULES* record);
 void printf_info_read();
 
 void read_submenu(int* status, FILE* db, MODULES* record) {
-    //int status = 0;
-    //char* filename = NULL;
-    //FILE* db = NULL;
+    // int status = 0;
+    // char* filename = NULL;
+    // FILE* db = NULL;
 
-    //printf("Enter db path\n>> ");
-    //filename = get_str(&status);
+    // printf("Enter db path\n>> ");
+    // filename = get_str(&status);
 
-    //if (filename != NULL) {
-        //db = fopen(filename, "rb+");
+    // if (filename != NULL) {
+    // db = fopen(filename, "rb+");
     //} else {
-        //status = NULL_PTR;
+    // status = NULL_PTR;
     //}
 
-    //if (db == NULL) {
-        //status = NULL_PTR;
+    // if (db == NULL) {
+    // status = NULL_PTR;
     //}
 
-    //MODULES* record = init_module();
-    //if (record == NULL) {
-        //status = NULL_PTR;
+    // MODULES* record = init_module();
+    // if (record == NULL) {
+    // status = NULL_PTR;
     //}
 
-    //printf("Now read: %s\n", filename == NULL ? "-NULL-" : filename);
+    // printf("Now read: %s\n", filename == NULL ? "-NULL-" : filename);
     while (!*status) {
         printf_info_read();
 
@@ -63,19 +63,19 @@ void read_submenu(int* status, FILE* db, MODULES* record) {
         print_modules(record);
     }
 
-    //if (record != NULL) {
-        //free(record);
+    // if (record != NULL) {
+    // free(record);
     //}
-    //if (filename != NULL) {
-        //free(filename);
+    // if (filename != NULL) {
+    // free(filename);
     //}
-    //if (db != NULL) {
-        //fclose(db);
+    // if (db != NULL) {
+    // fclose(db);
     //}
 
     printf("STATUS# %d\n", *status);
 
-    //return status;
+    // return status;
 }
 
 void show_all(FILE* db, MODULES* record) {
@@ -93,6 +93,4 @@ void show_all(FILE* db, MODULES* record) {
     }
 }
 
-void printf_info_read() {
-    printf("\n===Read Module===");
-}
+void printf_info_read() { printf("\n===Read Module==="); }

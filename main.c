@@ -34,7 +34,9 @@ int main() {
         print_status(filename, db, status);
         print_menu();
 
-        if (status) { status = 0; }
+        if (status) {
+            status = 0;
+        }
 
         menu = get_number(&status);
         printf("\n");
@@ -43,11 +45,14 @@ int main() {
         }
 
         if (menu == CONNECT_ACTION) {
-            if (filename != NULL) { free(filename); filename = NULL; }
+            if (filename != NULL) {
+                free(filename);
+                filename = NULL;
+            }
             printf("Enter DB path\n>> ");
 
-            //if (!feof(stdin)) {
-                //flush_stdin();
+            // if (!feof(stdin)) {
+            // flush_stdin();
             //}
 
             filename = get_str(&status);
@@ -57,31 +62,47 @@ int main() {
         } else if (menu == WRITE_ACTION) {
             if (db != NULL && record != NULL) {
                 write_submenu(&status, db, record);
-            } else { status = NULL_PTR; }
+            } else {
+                status = NULL_PTR;
+            }
             menu = 0;
-            if (status == EXIT_CODE) { status = 0; }
+            if (status == EXIT_CODE) {
+                status = 0;
+            }
 
         } else if (menu == READ_ACTION) {
             if (db != NULL && record != NULL) {
                 read_submenu(&status, db, record);
-            } else { status = NULL_PTR; }
+            } else {
+                status = NULL_PTR;
+            }
             menu = 0;
-            if (status == EXIT_CODE) { status = 0; }
+            if (status == EXIT_CODE) {
+                status = 0;
+            }
 
         } else if (menu == UPDATE_ACTION) {
             if (db != NULL && record != NULL) {
                 update_submenu(&status, db, record);
-            } else { status = NULL_PTR; }
+            } else {
+                status = NULL_PTR;
+            }
             menu = 0;
-            if (status == EXIT_CODE) { status = 0; }
+            if (status == EXIT_CODE) {
+                status = 0;
+            }
 
         } else if (menu == DELETE_ACTION) {
             db = disconnect(db);
 
             if (filename != NULL && record != NULL) {
                 delete_submenu(&status, filename, record);
-            } else { status = NULL_PTR; }
-            if (status == EXIT_CODE) { status = 0; }
+            } else {
+                status = NULL_PTR;
+            }
+            if (status == EXIT_CODE) {
+                status = 0;
+            }
             menu = 0;
             db = connect(filename);
 
@@ -106,12 +127,16 @@ int main() {
     }
 
     if (filename != NULL) {
-        if (DEBUG) { printf("[DEBUG] 'filename' NOT null in main\n"); }
+        if (DEBUG) {
+            printf("[DEBUG] 'filename' NOT null in main\n");
+        }
         free(filename);
     }
 
     if (db != NULL) {
-        if (DEBUG) { printf("[DEBUG] 'db' NOT null in main\n"); }
+        if (DEBUG) {
+            printf("[DEBUG] 'db' NOT null in main\n");
+        }
         fclose(db);
     }
 
@@ -134,7 +159,6 @@ FILE* disconnect(FILE* file) {
     }
     return file;
 }
-
 
 void print_menu() {
     printf("%d. Disconnect DB\n", DISCONNECT_ACTION);
