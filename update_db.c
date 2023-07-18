@@ -10,39 +10,10 @@
 
 void printf_info_upd();
 
-void update_submenu(int* status, FILE* db, MODULES* record) {
-    // char* filename = NULL;
-    // FILE* db = NULL;
-
-    // printf("Enter DB path\n>> ");
-    // filename = get_str(&status);
-
-    // if (filename != NULL) {
-    // db = fopen(filename, "rb+");
-    //} else {
-    // status = NULL_PTR;
-    //}
-
-    // if (db == NULL) {
-    // status = NULL_PTR;
-    //}
-
-    // MODULES* record = init_module();
-    // if (record == NULL) {
-    // status = NULL_PTR;
-    //}
-
-    // if (db != NULL) {
-    // printf("Now update: ");
-    //} else {
-    // printf("Can't open ");
-    //}
-
-    // printf("'%s'\n", filename == NULL ? "-NULL-" : filename);
-
+void update_submenu(int* status, FILE* db, RECORD* record) {
     while (!*status) {
         printf_info_upd();
-        int user_inp;
+        int user_inp = 0;
         printf("\nEnter id for find & update, %d for exit\n>> ", EXIT_CODE);
 
         user_inp = get_number(status);
@@ -52,9 +23,17 @@ void update_submenu(int* status, FILE* db, MODULES* record) {
             continue;
         }
 
+        if (*status) {
+            *status = 0;
+            if (!feof(stdin)) {
+                flush_stdin();
+            }
+            continue;
+        }
+
         find_by_id(db, record, user_inp);
 
-        printf("\nWhat to change\n1.Name\n2.Memory level\n3.Cell\n4.Flag\n\n");
+        printf("\nWhat to change\n1.Name\n2.Memory level\n3.Cell\n4.Flag\n%d. EXIT\n", EXIT_CODE);
         print_header();
         print_modules(record);
 
@@ -71,22 +50,31 @@ void update_submenu(int* status, FILE* db, MODULES* record) {
             } else {
                 *status = NULL_PTR;
             }
+            user_inp = 0;
 
         } else if (user_inp == 2) {
             printf("Enter new memory level\n>> ");
             record->mem_level = get_number(status);
+            user_inp = 0;
 
         } else if (user_inp == 3) {
             printf("Enter new cell\n>> ");
             record->cell = get_number(status);
+            user_inp = 0;
 
         } else if (user_inp == 4) {
             printf("Enter new flag\n>> ");
             record->flag = get_number(status);
+            user_inp = 0;
+
+        } else if (user_inp == EXIT_CODE) {
+            user_inp = 0;
+            continue;
 
         } else {
             printf("Unknown input\n");
             *status = 1;
+            user_inp = 0;
         }
 
         if (!*status) {
@@ -101,21 +89,7 @@ void update_submenu(int* status, FILE* db, MODULES* record) {
         }
     }
 
-    // if (record != NULL) {
-    // free(record);
-    //}
-
-    // if (filename != NULL) {
-    // free(filename);
-    //}
-
-    // if (db != NULL) {
-    // fclose(db);
-    //}
-
     printf("UPDATE STATUS# %d\n", *status);
-
-    // return status;
 }
 
 void printf_info_upd() { printf("\n===Update Module==="); }

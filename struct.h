@@ -9,6 +9,6 @@ typedef struct modules {
     int mem_level;
     int cell;
     int flag;
-} MODULES;
+} RECORD;
 
 #endif

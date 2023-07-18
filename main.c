@@ -18,7 +18,7 @@ int main() {
     char* filename = NULL;
     FILE* db = NULL;
 
-    MODULES* record = init_module();
+    RECORD* record = init_module();
     if (record == NULL) {
         status = NULL_PTR;
     }
@@ -50,10 +50,6 @@ int main() {
                 filename = NULL;
             }
             printf("Enter DB path\n>> ");
-
-            // if (!feof(stdin)) {
-            // flush_stdin();
-            //}
 
             filename = get_str(&status);
             db = connect(filename);

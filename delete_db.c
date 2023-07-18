@@ -9,33 +9,25 @@
 
 void printf_info_del();
 
-void delete_submenu(int* status, char* filename, MODULES* record) {
-    // int status = 0;
-    // char* filename = NULL;
-
-    // printf("Enter DB path\n>> ");
-    // filename = get_str(&status);
+void delete_submenu(int* status, char* filename, RECORD* record) {
     FILE* db = NULL;
-
-    // if (filename == NULL) {
-    // status = NULL_PTR;
-    //}
-
-    // MODULES* record = init_module();
-    // if (record == NULL) {
-    // status = NULL_PTR;
-    //}
-
-    // printf("Now delete in: %s\n", filename == NULL ? "-NULL-" : filename);
     while (!*status) {
         printf_info_del();
-        int user_inp;
+        int user_inp = 0;
         printf("\nEnter id for find & del, %d for exit\n>> ", EXIT_CODE);
 
         user_inp = get_number(status);
         printf("\n");
         if (user_inp == EXIT_CODE) {
             *status = USER_STOP;
+            continue;
+        }
+
+        if (*status) {
+            *status = 0;
+            if (!feof(stdin)) {
+                flush_stdin();
+            }
             continue;
         }
 
@@ -59,21 +51,11 @@ void delete_submenu(int* status, char* filename, MODULES* record) {
         }
     }
 
-    // if (record != NULL) {
-    // free(record);
-    //}
-
-    // if (filename != NULL) {
-    // free(filename);
-    //}
-
     if (db != NULL) {
         fclose(db);
     }
 
     printf("DELETE STATUS# %d\n", *status);
-
-    // return status;
 }
 
 void printf_info_del() { printf("\n===Delete Module==="); }
