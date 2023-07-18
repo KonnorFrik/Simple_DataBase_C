@@ -7,42 +7,45 @@
 #include "settings.h"
 #include "struct.h"
 
-int main() {
-    int status = 0;
-    char* filename = NULL;
-    FILE* db = NULL;
+void printf_info_write();
 
-    printf("Enter DB path\n>> ");
-    filename = get_str(&status);
+void write_submenu(int* status, FILE* db, MODULES* record) {
+    //int status = 0;
+    //char* filename = NULL;
+    //FILE* db = NULL;
 
-    if (filename != NULL) {
-        db = fopen(filename, "ab+");
+    //printf("Enter DB path\n>> ");
+    //filename = get_str(&status);
 
-    } else {
-        status = NULL_PTR;
-    }
+    //if (filename != NULL) {
+        //db = fopen(filename, "ab+");
+    //} else {
+        //status = NULL_PTR;
+    //}
 
-    if (db == NULL) {
-        status = NULL_PTR;
-    }
+    //if (db == NULL) {
+        //status = NULL_PTR;
+    //}
 
-    MODULES* record = init_module();
-    if (record == NULL) {
-        status = NULL_PTR;
-    }
+    //MODULES* record = init_module();
+    //if (record == NULL) {
+        //status = NULL_PTR;
+    //}
 
-    printf("Now append: %s\n", filename == NULL ? "-NULL-" : filename);
-    while (!status) {
+    //printf("Now append: %s\n", filename == NULL ? "-NULL-" : filename);
+    while (!*status) {
+        printf_info_write();
         int menu;
         printf("\nEnter 1 for append, %d for exit\n>> ", EXIT_CODE);
 
-        menu = get_number(&status);
+        menu = get_number(status);
+        printf("\n");
         if (menu == EXIT_CODE) {
-            status = USER_STOP;
+            *status = USER_STOP;
             continue;
         }
 
-        fill_module(record, &status);
+        fill_module(record, status);
         record->id = new_id(db);
 
         printf("Writed record:\n");
@@ -52,19 +55,21 @@ int main() {
         write_module(db, record);
     }
 
-    if (record != NULL) {
-        free(record);
-    }
+    //if (record != NULL) {
+        //free(record);
+    //}
+    //if (filename != NULL) {
+        //free(filename);
+    //}
+    //if (db != NULL) {
+        //fclose(db);
+    //}
 
-    if (filename != NULL) {
-        free(filename);
-    }
+    printf("STATUS# %d\n", *status);
 
-    if (db != NULL) {
-        fclose(db);
-    }
+    //return status;
+}
 
-    printf("STATUS# %d\n", status);
-
-    return status;
+void printf_info_write() {
+    printf("\n===Write Module===");
 }

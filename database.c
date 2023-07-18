@@ -29,14 +29,19 @@ void find_by_id(FILE* db, MODULES* record, int search_id) {
 }
 
 int max_id(FILE* db, MODULES* obj) {
-    int res = -1;
+    int res = 0;
     int offset = 0;
 
     while (db != NULL && !feof(db)) {
         read_module(db, obj, offset);
 
+        if (DEBUG) {
+            printf("[DEBUG] %d %s\n", obj->id, obj->name);
+        }
+
         if (obj != NULL && obj->id > res) {
             res = obj->id;
+            if (DEBUG) { printf("[DEBUG]\tMax changed: %d\n", res); }
         }
 
         offset++;
@@ -47,12 +52,14 @@ int max_id(FILE* db, MODULES* obj) {
 
 int new_id(FILE* db) {
     MODULES* fake = calloc(1, sizeof(MODULES));
-    int res = -1;
+    int res;
 
     if (fake != NULL) {
         res = max_id(db, fake);
         free(fake);
     }
+
+    if (DEBUG) { printf("[DEBUG] GOT max id: %d to return: %d\n", res, res+1); }
 
     return res + 1;
 }
@@ -66,9 +73,6 @@ void delete_module(char* filename, MODULES* record) {
         to_read = fopen(filename, "rb");
         tmp_filename = get_tmp_filename(filename);
 
-        if (DEBUG) {
-            printf("\nfilename: %s\ttmp filename: %s\n", filename, tmp_filename);
-        }
     }
 
     if (tmp_filename != NULL) {
@@ -77,13 +81,17 @@ void delete_module(char* filename, MODULES* record) {
 
     if (tmp != NULL && to_read != NULL) {
         MODULES* obj = calloc(1, sizeof(MODULES));
+        int offset = 0;
 
         while (!feof(to_read) && obj != NULL) {
-            fread(obj, sizeof(MODULES), 1, to_read);
+            //fread(obj, sizeof(MODULES), 1, to_read);
+            read_module(to_read, obj, offset);
 
             if (obj->id != record->id) {
                 fwrite(obj, sizeof(MODULES), 1, tmp);
             }
+
+            offset++;
         }
 
         if (obj != NULL) {
@@ -108,6 +116,13 @@ void delete_module(char* filename, MODULES* record) {
 
 char* get_tmp_filename(char* filename) {
     char* new = NULL;
+
+    if (DEBUG) {
+        printf("[DEBUG]\n");
+        printf("IN get_tmp_filename filename is:\n");
+        print_raw_str(filename);
+        printf("[DEBUG]\n");
+    }
 
     if (filename != NULL) {
         int len;
@@ -158,6 +173,35 @@ void read_module(FILE* db, MODULES* obj, int offset) {
         fseek(db, sizeof(MODULES) * offset, SEEK_SET);
         fread(obj, sizeof(MODULES), 1, db);
     }
+}
+
+void update_module(FILE* db, MODULES* obj) {
+    //find_by_id(db, obj, obj->id);
+    fseek(db, ftell(db) - sizeof(MODULES), SEEK_SET);
+    if (DEBUG) {printf("[DEBUG] cursor for update: %ld\n", ftell(db));}
+    fwrite(obj, sizeof(MODULES), 1, db);
+
+    //printf("\nWhat to change\n1.Name\n2.Memory level\n3.Cell\n4.Flag\n");
+    //print_header();
+    //print_modules(obj);
+    //int user_inp;
+    //int fake_status = 0;
+    //user_inp = get_number(&fake_status);
+    //if (user_inp == 1) {
+        //obj->name = get_str(&fake_status);
+    //} else if (user_inp == 2) {
+        //obj->mem_level = get_number(&fake_status);
+    //} else if (user_inp == 3) {
+        //obj->cell = get_number(&fake_status);
+    //} else if (user_inp == 4) {
+        //obj->flag = get_number(&fake_status);
+    //} else {
+        //printf("Unknown input\n");
+        //fake_status = 1;
+    //}
+    //if (!fake_status) {
+        //fwrite(obj, sizeof(MODULES), 1, db);
+    //}
 }
 
 void print_header() { printf("id\tname\t\tmemory\tcell\tflag\n"); }

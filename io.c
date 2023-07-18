@@ -103,6 +103,7 @@ int is_eol() {
 
     if (getchar() == '\n') {
         res = 1;
+        //ungetc('\n', stdin);
     }
 
     return res;
@@ -112,4 +113,17 @@ void flush_stdin() {
     while (getchar() != '\n') {
         ;
     }
+}
+
+void print_raw_str(char* str) {
+    int ind = 0;
+    while (str[ind] != '\0') {
+        if (str[ind] == '\n') {
+            break;
+        }
+        printf("%d - %c\n", str[ind], str[ind]);
+        ind++;
+    }
+    printf("%d - %c\n", str[ind], str[ind]);
+    printf("\n");
 }
