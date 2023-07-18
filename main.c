@@ -10,6 +10,7 @@
 
 void print_menu();
 void print_status(char* filename, FILE* db, int status);
+void print_hello();
 FILE* connect(char* filename);
 FILE* disconnect(FILE* file);
 
@@ -23,10 +24,7 @@ int main() {
         status = NULL_PTR;
     }
 
-    printf("=========================\n");
-    printf("| Welcome to C DataBase |\n");
-    printf("=========================\n");
-    printf("\n");
+    print_hello();
 
     int menu = 0;
     while (menu != EXIT_CODE) {
@@ -170,9 +168,17 @@ void print_menu() {
 void print_status(char* filename, FILE* db, int status) {
     printf("\n");
     printf("--------Status------\n");
-    printf("| Sys status:  '%d'|\n", status);
-    printf("| DB file:     '%s'|\n", filename == NULL ? "-NULL-" : filename);
-    printf("| DB connect:   %s |\n", db == NULL ? "NO" : "YES");
+    printf("| Sys status:  '%d'\n", status);
+    printf("| DB file:     '%s'\n", filename == NULL ? "-NULL-" : filename);
+    printf("| DB connect:   %s \n", db == NULL ? "NO" : "YES");
     printf("--------Status------\n");
+    printf("\n");
+}
+
+void print_hello() {
+    printf("=========================\n");
+    printf("| Welcome to C DataBase |\n");
+    printf("| Author: KonnorFrik    |\n");
+    printf("=========================\n");
     printf("\n");
 }

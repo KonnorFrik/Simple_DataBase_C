@@ -33,12 +33,15 @@ void update_submenu(int* status, FILE* db, RECORD* record) {
 
         find_by_id(db, record, user_inp);
 
+        /*vvvvvvvvvvvvFOR CHANGESvvvvvvvvvvvvvvvvvv*/
         printf("\nWhat to change\n1.Name\n2.Memory level\n3.Cell\n4.Flag\n%d. EXIT\n", EXIT_CODE);
+        /*^^^^^^^^^^^^FOR CHANGES^^^^^^^^^^^^^^^^^^*/
         print_header();
         print_modules(record);
 
         user_inp = get_number(status);
 
+        /*vvvvvvvvvvvvFOR CHANGESvvvvvvvvvvvvvvvvvv*/
         if (user_inp == 1) {
             printf("Enter new name\n>> ");
             flush_stdin();
@@ -76,6 +79,7 @@ void update_submenu(int* status, FILE* db, RECORD* record) {
             *status = 1;
             user_inp = 0;
         }
+        /*^^^^^^^^^^^^FOR CHANGES^^^^^^^^^^^^^^^^^^*/
 
         if (!*status) {
             printf("\nUpdate confirm\n");
